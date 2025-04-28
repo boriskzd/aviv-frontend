@@ -14,6 +14,7 @@ export interface ListingFormData {
   latest_price_eur: number;
   surface_area_m2: number;
   rooms_count: number;
+  bedrooms_count: number;
   contact_phone_number: string; // Listing main contact phone number,
   // following the E.164 standard. Match patten : ^\+[1-9]\d{1,14}$.
 }

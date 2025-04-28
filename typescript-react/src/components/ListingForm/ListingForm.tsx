@@ -17,20 +17,9 @@ const ListingForm = () => {
     latest_price_eur: 0,
     surface_area_m2: 0,
     rooms_count: 0,
+    bedrooms_count: 0,
     contact_phone_number: '',
   });
-
-  console.log('formData', formData);
-
-  //   const handleChange = (
-  //     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  //   ) => {
-  //     const { name, value } = e.target;
-  //     setFormData((prev) => ({
-  //       ...prev,
-  //       [name]: value,
-  //     }));
-  //   };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -60,11 +49,51 @@ const ListingForm = () => {
     }
   };
 
-  const submit = (e: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     console.log('form data before submission', formData);
-    // todo: submit to API
+
+    // Prepare the form data for the API
+    const data = {
+      name: formData.name,
+      postal_address: {
+        street_address: formData.postal_address.street_address,
+        postal_code: formData.postal_address.postal_code,
+        city: formData.postal_address.city,
+        country: formData.postal_address.country,
+      },
+      description: formData.description,
+      building_type: formData.building_type,
+      latest_price_eur: formData.latest_price_eur,
+      surface_area_m2: formData.surface_area_m2,
+      rooms_count: formData.rooms_count,
+      bedrooms_count: formData.bedrooms_count,
+      contact_phone_number: formData.contact_phone_number,
+    };
+
+    try {
+      const response = await fetch('/listings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      // Check if the request was successful
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Listing created successfully:', result);
+        // Optionally, reset form data or show success message
+      } else {
+        console.error('Failed to create listing');
+        // Handle error (e.g., show error message to the user)
+      }
+    } catch (error) {
+      console.error('Error occurred while submitting form:', error);
+      // Handle any network errors
+    }
   };
 
   return (
@@ -125,6 +154,18 @@ const ListingForm = () => {
             type="number"
             name="rooms_count"
             value={formData.rooms_count}
+            onChange={handleChange}
+            className={styles['listing-form__input-text']}
+          />
+        </div>
+
+        {/* Bedrooms Count */}
+        <div className={styles['listing-form__input-group']}>
+          <label htmlFor="bedrooms_count">Bedrooms Count:</label>
+          <input
+            type="number"
+            name="bedrooms_count"
+            value={formData.bedrooms_count}
             onChange={handleChange}
             className={styles['listing-form__input-text']}
           />
