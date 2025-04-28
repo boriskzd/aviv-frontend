@@ -6,8 +6,11 @@ export interface PostalAddress {
   // as a ISO 3166-1 alpha-2 country code.	2 chars string
 }
 
-export interface ListingFormData {
+export interface Listing {
+  id?: number;
   name: string;
+  created_date?: string;
+  updated_date?: string;
   postal_address: PostalAddress;
   description: string;
   building_type: 'STUDIO' | 'APARTMENT' | 'HOUSE';

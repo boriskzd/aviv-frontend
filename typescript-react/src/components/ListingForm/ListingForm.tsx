@@ -1,10 +1,10 @@
 import styles from './listing-form.module.scss';
 import { useState } from 'react';
 
-import { ListingFormData } from '../../types/listing';
+import { Listing } from '../../types/listing';
 
 const ListingForm = () => {
-  const [formData, setFormData] = useState<ListingFormData>({
+  const [formData, setFormData] = useState<Listing>({
     name: '',
     postal_address: {
       street_address: '',
