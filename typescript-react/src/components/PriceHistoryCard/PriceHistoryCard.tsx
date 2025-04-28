@@ -1,6 +1,11 @@
+import { PriceHistoryType } from 'containers/PricesHistory/PricesHistory';
 import styles from './price-history-card.module.scss';
 
-const PriceHistoryCard = () => {
+interface PriceHistoryCardProps {
+  history: PriceHistoryType[];
+}
+
+const PriceHistoryCard = ({ history }: PriceHistoryCardProps) => {
   return (
     <div className={styles['container']}>
       <table className={styles['price-card']}>
@@ -9,10 +14,12 @@ const PriceHistoryCard = () => {
             <th scope="col">Date</th>
             <th scope="col">Price (eur)</th>
           </tr>
-          <tr>
-            <td scope="col">01/01/2022</td>
-            <td scope="col">500 000</td>
-          </tr>
+          {history.map((item: PriceHistoryType, index) => (
+            <tr key={index}>
+              <td scope="col">{item.created_date}</td>
+              <td scope="col">{item.price_eur}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
